@@ -5,4 +5,4 @@
 function InvalidArgumentException(message) {
     this.message = message;
 }
-InvalidArgumentException.prototype = Object.create(Error);
+InvalidArgumentException.prototype = Object.create(Error.prototype);

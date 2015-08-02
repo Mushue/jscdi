@@ -180,3 +180,111 @@ Configuration.prototype.getString = function (key) {
 
     throw new OutOfBoundsException('Configuration setting not found: "' + key + '"');
 };
+
+/**
+ *
+ * @param key
+ * @param defaults
+ * @returns []
+ */
+Configuration.prototype.getArray = function (key, defaults) {
+    defaults = typeof defaults !== 'undefined' ? defaults : [];
+    key = Object.toLowerCase(key);
+
+    if (this.isArray(data)) {
+        for (var i in data) {
+            if (data[i].hasOwnProperty(key)) {
+                return [data[i][key]];
+            }
+        }
+    }
+    return defaults;
+}
+
+/**
+ *
+ * @param key
+ * @returns number
+ */
+Configuration.prototype.getCount = function (key) {
+    key = key.toLowerCase();
+
+    if (this.isArray(data)) {
+        for (var i in data) {
+            if (data[i].hasOwnProperty(key)) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+/**
+ *
+ * @param key
+ * @param defaults
+ * @returns {*}
+ */
+Configuration.prototype.getConfig = function (key, defaults) {
+    defaults = typeof defaults !== 'undefined' ? defaults : null;
+    if (defaults !== null && !(defaults instanceof Configuration)) {
+        throw new InvalidArgumentException('Not a Configuration instance');
+        return;
+    }
+
+    var resolved = {resolved: false};
+    var value = this.getByKey(key, resolved);
+
+    if (resolved.resolved) {
+        return new Configuration(value);
+    }
+
+    return (defaults === null) ? new Configuration() : defaults;
+}
+
+/**
+ *
+ * @param container
+ * @returns {*}
+ */
+Configuration.prototype.mergeWith = function (container) {
+    container = typeof container !== 'undefined' ? container : null;
+    if (container === null || !(container instanceof Configuration)) {
+        throw new InvalidArgumentException('Not a Configuration instance');
+        return;
+    }
+    return this.mergeWithConfiguration(container);
+}
+
+/**
+ * @TODO not implemented yet
+ * @param container
+ * @param keyStack
+ */
+Configuration.prototype.mergeWithConfiguration = function (container, keyStack) {
+    container = typeof container !== 'undefined' ? container : null;
+    keyStack = typeof keyStack !== 'undefined' ? keyStack : [];
+
+    if (container === null || !(container instanceof Configuration)) {
+        throw new InvalidArgumentException('Not a Configuration instance');
+        return;
+    }
+
+    var self = this;
+    var result = [];
+    if (this.isArray(container.data)) {
+        for (var i in container.data) {
+            container.data[i].forEach(function (k, v) {
+                if (!self.data[i].hasOwnProperty(k)) {
+                    result[k] = v;
+                    return;
+                }
+                if (self.isArray(self.data[i][key]) && self.isArray(v)) {
+                    var fk1 = Object.keys(self.data[i][key]);
+                    var fk2 = key(v);
+                    // @TODO not implemented yet
+                }
+            })
+        }
+    }
+}

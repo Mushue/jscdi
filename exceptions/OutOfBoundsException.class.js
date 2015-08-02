@@ -5,4 +5,4 @@
 function OutOfBoundsException(message) {
     this.message = message;
 }
-OutOfBoundsException.prototype = Object.create(Error);
+OutOfBoundsException.prototype = Object.create(Error.prototype);

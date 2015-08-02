@@ -59,6 +59,19 @@ AbstractBaseClass.prototype.isBoolean = function (bool) {
 AbstractBaseClass.prototype.isArray = function (arr) {
     return Object.prototype.toString.call(arr) === '[object Array]';
 };
+
+/**
+ *
+ * @param key
+ * @param arr
+ * @returns {boolean}
+ */
+AbstractBaseClass.prototype.arrayKeyExists = function (key, arr) {
+    if (this.isArray(arr)) {
+        return arr.hasOwnProperty(key);
+    }
+    return false;
+}
 /**
  *
  * @param arr
@@ -70,12 +83,31 @@ AbstractBaseClass.prototype.isFunction = function (arr) {
 
 /**
  *
+ * @param arr
+ * @returns {boolean}
+ */
+AbstractBaseClass.prototype.isNull = function (arr) {
+    return arr === null;
+};
+
+/**
+ *
  * @param str
  * @returns {boolean}
  */
 AbstractBaseClass.prototype.isUndefined = function (str) {
     return typeof str == 'undefined';
 };
+
+/**
+ *
+ * @param str
+ * @returns {boolean}
+ */
+AbstractBaseClass.prototype.isNullOrUndefined = function (str) {
+    return this.isNull(str) || this.isUndefined(str);
+}
+
 /**
  *
  * @param obj
@@ -110,3 +142,20 @@ AbstractBaseClass.prototype.makeArgsArray = function (myArguments) {
 
     return args;
 };
+
+/**
+ *
+ * @param obj
+ */
+AbstractBaseClass.prototype.interface = function (obj) {
+    this.implement = obj.prototype
+}
+
+/**
+ *
+ * @param interface
+ * @returns {Object|Function|*}
+ */
+AbstractBaseClass.prototype.isInterface = function (interface) {
+    return this.implement = interface.prototype;
+}
